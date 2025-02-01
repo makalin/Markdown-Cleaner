@@ -18,8 +18,8 @@ Clone this repository and ensure you have Python 3.x installed:
 
 ```bash
 git clone https://github.com/makalin/Markdown-Cleaner.git
-cd markdown-cleaner
-chmod +x markdown-cleaner.py
+cd Markdown-Cleaner
+chmod +x Markdown-Cleaner.py
 ```
 
 ## Usage
