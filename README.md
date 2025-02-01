@@ -17,7 +17,7 @@ A Python utility for cleaning and standardizing Markdown files. This tool helps 
 Clone this repository and ensure you have Python 3.x installed:
 
 ```bash
-git clone https://github.com/yourusername/markdown-cleaner.git
+git clone https://github.com/makalin/Markdown-Cleaner.git
 cd markdown-cleaner
 chmod +x markdown-cleaner.py
 ```
