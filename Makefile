@@ -34,5 +34,5 @@ type-check:
 	$(BIN)/mypy $(SRC_DIR) $(TEST_DIR)
 format:
 	$(BIN)/black $(SRC_DIR) $(TEST_DIR) 
-	find . -maxdepth 2 -type f -name "*.ipynb" | xargs -I {} bash -c "$(BIN)/black '{}'"
+
 refactor: format lint type-check test 
