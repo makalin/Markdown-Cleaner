@@ -24,7 +24,7 @@ def test_clean_file_fix_lists(mc_fix_lists):
 
 def test_clean_file_remove_multiple_blanks(mc_remove_multiple_blanks):
     """Test that multiple blank lines are reduced to one."""
-    cleaner = mc_remove_multiple_blanks)
+    cleaner = mc_remove_multiple_blanks
     input_content = "Line 1\n\n\nLine 2"
     expected_output = "Line 1\n\nLine 2\n"
     assert cleaner.clean_file(input_content) == expected_output
@@ -36,9 +36,9 @@ def test_clean_file_add_space_before_headers_and_lists(mc_standardize_headers_fi
     expected_output = "Some text\n\n# Header\nSome other text\n\n- Item\n"
     assert cleaner.clean_file(input_content) == expected_output
 
-def test_extract_plain_text(mc_fix_spacing):
+def test_extract_plain_text(mc_extract_text):
     """Test that plain text extraction removes Markdown formatting."""
-    cleaner = mc_fix_spacing
+    cleaner = mc_extract_text
     input_content = "# Header\nThis is *bold* and **bolder**.\n- Item 1\n- Item 2\n[Link](url)"
     expected_output = "Header\nThis is bold and bolder.\n• Item 1\n• Item 2\nLink\n"
     assert cleaner.clean_file(input_content) == expected_output
