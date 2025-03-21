@@ -2,6 +2,8 @@
 
 A Python utility for cleaning and standardizing Markdown files. This tool helps maintain consistent formatting across your Markdown documents by fixing common formatting issues and standardizing the layout.
 
+[![Makefile CI](https://github.com/makalin/Markdown-Cleaner/actions/workflows/makefile.yml/badge.svg)](https://github.com/makalin/Markdown-Cleaner/actions/workflows/makefile.yml)
+
 ## Features
 
 - Standardizes header formatting (ensures proper spacing after # symbols)
