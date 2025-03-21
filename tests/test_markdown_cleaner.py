@@ -1,6 +1,6 @@
 # tests/test_markdown_cleaner.py
 
-from markdown_cleaner import MarkdownCleaner
+from src.markdown_cleaner import MarkdownCleaner
 
 def test_clean_file_fix_spacing():
     """Test that trailing spaces are removed when fix_spacing is enabled."""
