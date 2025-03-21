@@ -19,7 +19,7 @@ Clone this repository and ensure you have Python 3.x installed:
 ```bash
 git clone https://github.com/makalin/Markdown-Cleaner.git
 cd Markdown-Cleaner
-chmod +x markdown-cleaner.py
+chmod +x markdown_cleaner.py
 ```
 
 ## Usage
@@ -27,19 +27,19 @@ chmod +x markdown-cleaner.py
 Basic usage:
 
 ```bash
-./markdown-cleaner.py file1.md file2.md
+./markdown_cleaner.py file1.md file2.md
 ```
 
 Process multiple files and modify them in-place:
 
 ```bash
-./markdown-cleaner.py -i *.md
+./markdown_cleaner.py -i *.md
 ```
 
 Extract plain text, removing all Markdown formatting:
 
 ```bash
-./markdown-cleaner.py --extract-text document.md
+./markdown_cleaner.py --extract-text document.md
 ```
 
 ### Command Line Options
