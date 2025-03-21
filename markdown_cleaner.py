@@ -25,6 +25,7 @@ class MarkdownCleaner:
         lines = content.split('\n')
         cleaned_lines = []
         prev_line = ''
+        in_list = False  # Track if we're in a list
 
         i = 0
         while i < len(lines):
@@ -39,10 +40,11 @@ class MarkdownCleaner:
                 line = self._fix_header(line)
             
             # Fix lists
-            if self.fix_lists and (line.lstrip().startswith('- ') or 
-                                 line.lstrip().startswith('* ') or 
+            is_list_item = False
+            if self.fix_lists and (line.lstrip().startswith(('- ', '* ', '-','*')) or 
                                  re.match(r'^\s*\d+\.', line)):
                 line = self._fix_list_item(line)
+                is_list_item = True
             
             # Handle blank lines
             if self.remove_multiple_blanks:
@@ -50,14 +52,17 @@ class MarkdownCleaner:
                     i += 1
                     continue
             
-            # Add space before headers and lists if needed
+            # Add space before headers and lists if needed, but not between consecutive list items
             if (i > 0 and line.lstrip().startswith(('#', '-', '*')) or 
                 re.match(r'^\s*\d+\.', line)):
                 if cleaned_lines and cleaned_lines[-1].strip() != '':
-                    cleaned_lines.append('')
+                    # Don't add a blank line if we're in a list and the current line is a list item
+                    if not (in_list and is_list_item):
+                        cleaned_lines.append('')
             
             cleaned_lines.append(line)
             prev_line = line
+            in_list = is_list_item  # Update list state
             i += 1
 
         # Ensure single newline at end of file
@@ -69,15 +74,15 @@ class MarkdownCleaner:
 
     def _extract_plain_text(self, content: str) -> str:
         """Extract plain text from markdown content."""
+        # Normalize newlines
+        content = content.replace('\r\n', '\n').replace('\r', '\n')
+        
         # Remove code blocks
         content = re.sub(r'```[^`]*```', '', content, flags=re.DOTALL)
         content = re.sub(r'`[^`]*`', '', content)
         
         # Remove images
-        content = re.sub(r'!\[([^\]]*)\]\([^)]*\)', r'\1', content)
-        
-        # Remove links but keep link text
-        content = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', content)
+        content = re.sub(r'!\[(.*?)\]\(.*?\)', r'\1', content)
         
         # Remove headers
         content = re.sub(r'^#+\s*', '', content, flags=re.MULTILINE)
@@ -101,6 +106,9 @@ class MarkdownCleaner:
         # Remove horizontal rules
         content = re.sub(r'^\s*[-*_]{3,}\s*$', '', content, flags=re.MULTILINE)
         
+        # Remove links but keep link text
+        content = re.sub(r'\[(.*?)\]\(.*?\)', r'\1', content)
+        
         return content.strip() + '\n'
 
     def _fix_header(self, line: str) -> str:
@@ -122,10 +130,10 @@ class MarkdownCleaner:
             content = content[len(number_part):].lstrip()
             return ' ' * indent + number_part + ' ' + content
         
-        # Handle bullet lists
-        if content.startswith(('- ', '* ')):
+        # Handle bullet lists (with or without space after marker)
+        if content.startswith(('-', '*')):
             marker = content[0]
-            content = content[2:].lstrip()
+            content = content[1:].lstrip()  # Remove marker and strip leading space
             return ' ' * indent + marker + ' ' + content
         
         return line
