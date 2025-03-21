@@ -3,7 +3,7 @@ import argparse
 import re
 import sys
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 
 class MarkdownCleaner:
@@ -27,7 +27,7 @@ class MarkdownCleaner:
             return self._extract_plain_text(content)
 
         lines = content.split("\n")
-        cleaned_lines = []
+        cleaned_lines: list[str] = []
         prev_line = ""
         in_list = False  # Track if we're in a list
 
@@ -134,8 +134,9 @@ class MarkdownCleaner:
         content = line.lstrip()
 
         # Handle numbered lists
-        if re.match(r"^\d+\.", content):
-            number_part = re.match(r"^\d+\.", content).group()
+        rg = re.match(r"^\d+\.", content)
+        if rg:
+            number_part = rg.group()
             content = content[len(number_part) :].lstrip()
             return " " * indent + number_part + " " + content
 
